@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>
+    <%= title %>
+  </title>
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+  <style>
+    body {
+      padding: 1%;
+    }
+
+    footer {
+      padding-top: 5px;
+      padding-bottom: 10px;
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    h1 {
+      padding-top: 5px;
+      padding-bottom: 10px;
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    h2 {
+      text-align: center;
+      padding-bottom: 2%;
+    }
+
+    .wrapper {
+      display: grid;
+      grid-template-columns: 30% 70%;
+    }
+
+    .box {
+      border-radius: 10px;
+      border: 1px solid rgb(255, 254, 255);
+      height: 75vh;
+    }
+
+    #numerical_data {
+      padding-left: 15%;
+    }
+
+    .table th {
+      text-align: center;
+    }
+
+    .table th,
+    .table td {
+      padding: 10px;
+      border: 1px solid rgb(255, 254, 255);
+    }
+
+    .table th:first-child,
+    .table td:first-child {
+      border-left: 0;
+    }
+
+    .table th:last-child,
+    .table td:last-child {
+      border-right: 0;
+    }
+
+    .table tr td:first-child {
+      text-align: center;
+    }
+
+    .table caption {
+      caption-side: bottom;
+      display: none;
+    }
+
+    #img {
+      width: 90%;
+      padding-left: 5%;
+    }
+
+    .chart {
+      padding-left: 10%;
+      width: 80%;
+      border-color: blue;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Web-based Seed Phenotype Trait Extraction Program</h1>
+  </header>
+  <main>
+    <div class="wrapper">
+      <div class="box">
+        <h2>Seed Image binary</h2>
+        <img src="<%= path %>" id="img" name="image" />
+        <hr />
+        <h2>Numerical Data</h2>
+        <div id="numerical_data">
+          <table class="table">
+            <tr>
+              <th>No.</th>
+              <th>수치 데이터 종류</th>
+              <th>수치 데이터</th>
+            </tr>
+            <tr>
+              <th>1</th>
+              <th>개별 종자수</th>
+              <th>
+                <%= num %>
+              </th>
+            </tr>
+            <tr>
+              <th>2</th>
+              <th>면적의 평균</th>
+              <th>
+                <%= area %>
+              </th>
+            </tr>
+            <tr>
+              <th>3</th>
+              <th>둘레의 평균</th>
+              <th>
+                <%= perimter %>
+              </th>
+            </tr>
+            <tr>
+              <th>4</th>
+              <th>장축의 평균</th>
+              <th>
+                <%= longAxis %>
+              </th>
+            </tr>
+            <tr>
+              <th>5</th>
+              <th>단축의 평균</th>
+              <th>
+                <%= shortAxis %>
+              </th>
+            </tr>
+            <tr>
+              <th>6</th>
+              <th>견고함의 평균</th>
+              <th>
+                <%= solidity %>
+              </th>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div class="box">
+        <h2>Numerical Data Chart</h2>
+        <div class="chart">
+          <canvas id="myChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </main>
+  <footer>@2020.09.09 Choi Sang Min</footer>
+</body>
+
+<script>
+  var seedCount =  <%= seedCount %>;
+  var seedArea =  <%= seedArea %>;
+  var seedPerimter =  <%= seedPerimter %>;
+  var seedSolidity =  <%= seedSolidity %>;
+  var seedLongAxis =  <%= seedLongAxis %>;
+  var seedShortAxis =  <%= seedShortAxis %>;
+  var ctx = document.getElementById("myChart").getContext("2d");
+  var chart = new Chart(ctx, {
+    // The type of chart we want to create
+    type: "line",
+    // The data for our dataset
+    data: {
+      labels: seedCount,
+      datasets: [
+        {
+          label: "면적",
+          borderColor: "rgb(255, 0, 0)",
+          data: seedArea,
+          fontColor: 'black',
+        },
+        {
+          label: "둘레",
+          borderColor: "rgb(0, 255, 0)",
+          data: seedPerimter,
+        },
+        {
+          label: "장축",
+          borderColor: "rgb(0, 0, 255)",
+          data: seedLongAxis,
+        },
+        {
+          label: "단축",
+          borderColor: "rgb(255, 255, 0)",
+          data: seedShortAxis,
+        },
+        {
+          label: "견고함",
+          borderColor: "rgb(0, 255, 255)",
+          data: seedSolidity,
+        },
+      ],
+    },
+
+    // Configuration options go here
+    options: {},
+  });
+</script>
+%>
+
+</html>

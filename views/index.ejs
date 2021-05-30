@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>
+    <%= title %>
+  </title>
+  <style>
+    body {
+      padding: 1%;
+    }
+
+    footer {
+      padding-top: 5px;
+      padding-bottom: 10px;
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    h1 {
+      padding-top: 5px;
+      padding-bottom: 10px;
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    h2 {
+      text-align: center;
+      padding-bottom: 5%;
+    }
+
+    .wrapper {
+      display: grid;
+      grid-template-columns: 30% 70%;
+    }
+
+    .box {
+      border-radius: 10px;
+      border: 1px solid #ddd;
+      height: 75vh;
+    }
+
+    #file_form {
+      padding: 10%;
+    }
+
+    #img {
+      width: 60%;
+      padding-left: 20%;
+    }
+
+    #radioBtn {
+      padding-left: 20%;
+    }
+  </style>
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+</head>
+
+<body>
+  <header>
+    <h1>Web-based Seed Phenotype Trait Extraction Program</h1>
+  </header>
+  <main>
+    <div class="wrapper">
+      <div class="box">
+        <h2>Image File Upload</h2>
+        <div id="file_form">
+          <form action="/upload" method="post" enctype="multipart/form-data" id="imageSubmit">
+            <input type="file" name="imagFile" id="imagFile" />
+            <br />
+            <br />
+            <hr />
+            <input type="radio" name="chk_info" value="ben" />ben
+            <input type="radio" name="chk_info" value="rice" checked />rice
+            <br />
+            <br />
+            <input type="submit" value="이미지 파일 업로드하기" />
+          </form>
+        </div>
+        <hr />
+      </div>
+      <div class="box">
+        <h2>Upload Image Preview</h2>
+        <div class="img_wrap">
+          <img id="img" />
+        </div>
+      </div>
+    </div>
+  </main>
+  <footer>@2020.09.09 Choi Sang Min</footer>
+</body>
+<script type="text/javascript">
+  var sel_file;
+  $(document).ready(function () {
+    $("#imagFile").on("change", handleImgFileSelect);
+  });
+  function handleImgFileSelect(e) {
+    var files = e.target.files;
+    var filesArr = Array.prototype.slice.call(files);
+    filesArr.forEach(function (f) {
+      if (!f.type.match("image.*")) {
+        alert("이미지 확장자만 가능합니다.");
+        return;
+      }
+      sel_file = f;
+      var reader = new FileReader();
+      reader.onload = function (e) {
+        $("#img").attr("src", e.target.result);
+      };
+      reader.readAsDataURL(f);
+    });
+  }
+</script>
+
+</html>
